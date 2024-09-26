@@ -5,6 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 // Mark this class as a controller
@@ -14,10 +15,14 @@ public class HomeController {
     // http://localhost:8080/ or http://localhost:8080/index or
     // http://localhost:8080/index.html
     @GetMapping
-    public String index(Model model) {
+    public String index(
+            @RequestParam(name = "name", required = false, defaultValue = "User") String name,
+            @RequestParam(name = "age", required = false, defaultValue = "0") int age,
+            Model model) {
         // Model - transfer data from controller to view
         model.addAttribute("message",
-                "Hello Cong!, Welcome to the Spring Boot MVC Home Page.");
+                "Hello " + name + ", this is the home page of Spring Boot MVC.");
+        model.addAttribute("age", age);
         return "home/index";
     }
 
