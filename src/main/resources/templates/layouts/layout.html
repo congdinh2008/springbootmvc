@@ -11,16 +11,20 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
-<body>
-    <header>
-        Header
+<body class="flex flex-col min-h-screen">
+    <!-- Replace with Header fragment -->
+    <header th:replace="shared/header :: header">
     </header>
-    <main>
+
+    <!-- Main Content -->
+    <main class="flex-grow">
+        <!-- Replace with Content fragment -->
         <section layout:fragment="content">
         </section>
     </main>
-    <footer>
-        Footer
+
+    <!-- Replace with Footer fragment -->
+    <footer th:replace="shared/footer :: footer">
     </footer>
 </body>
 
