@@ -31,6 +31,15 @@
 		<java.version>22</java.version>
 	</properties>
 	<dependencies>
+		 <!-- Using Thymeleaf Layout Dialect -->
+        <!-- Dùng chung layout cho nhiều views khác nhau để dễ sử dụng, tối giản, dễ quản lý , bảo
+        trì -->
+        <dependency>
+            <groupId>nz.net.ultraq.thymeleaf</groupId>
+            <artifactId>thymeleaf-layout-dialect</artifactId>
+            <version>3.3.0</version>
+        </dependency>
+		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+    layout:decorate="~{layouts/layout}">
 
 <head>
     <meta charset="UTF-8">
@@ -8,7 +9,9 @@
 </head>
 
 <body>
-    <h1 th:text="${message}"></h1>
+    <section layout:fragment="content">
+        <h1 th:text="${message}"></h1>
+    </section>
 </body>
 
 </html>
