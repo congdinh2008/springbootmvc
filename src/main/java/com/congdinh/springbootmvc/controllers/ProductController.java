@@ -11,15 +11,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.congdinh.springbootmvc.dtos.product.ProductDTO;
+import com.congdinh.springbootmvc.services.CategoryService;
 import com.congdinh.springbootmvc.services.ProductService;
 
 @Controller
 @RequestMapping("/products")
 public class ProductController {
     private final ProductService productService;
+    private final CategoryService categoryService;
 
-    public ProductController(ProductService productService) {
+    public ProductController(ProductService productService, CategoryService categoryService) {
         this.productService = productService;
+        this.categoryService = categoryService;
     }
 
     @GetMapping
@@ -31,7 +34,9 @@ public class ProductController {
 
     // Render Create Product form
     @GetMapping("/create")
-    public String create() {
+    public String create(Model model) {
+        var categories = categoryService.findAll();
+        model.addAttribute("categories", categories);
         return "products/create";
     }
 
@@ -47,6 +52,10 @@ public class ProductController {
     public String edit(@PathVariable UUID id, Model model) {
         var productDTO = productService.findById(id);
         model.addAttribute("productDTO", productDTO);
+
+        // Get all categories
+        var categories = categoryService.findAll();
+        model.addAttribute("categories", categories);
         return "products/edit";
     }
 

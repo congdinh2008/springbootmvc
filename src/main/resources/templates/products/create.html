@@ -20,13 +20,24 @@
                         <label for="name" class="block mb-2">Name</label>
                         <input type="text" id="name" name="name" class="w-full p-2 border border-slate-300 rounded-md">
                     </div>
+                    <div class="form-group mb-3 w-1/2 px-2">
+                        <label for="name" class="block mb-2">Category</label>
+                        <select name="categoryId" id="category" title="Category"
+                            class="w-full p-2 border border-slate-300 rounded-md">
+                            <option>Select Category</option>
+                            <option th:each="category : ${categories}" th:value="${category.id}"
+                                th:text="${category.name}"></option>
+                        </select>
+                    </div>
                     <div class="form-group mb-3 w-1/4 px-2">
                         <label for="price" class="block mb-2">Price</label>
-                        <input type="number" id="price" name="price" class="w-full p-2 border border-slate-300 rounded-md">
+                        <input type="number" id="price" name="price"
+                            class="w-full p-2 border border-slate-300 rounded-md">
                     </div>
                     <div class="form-group mb-3 w-1/4 px-2">
                         <label for="stock" class="block mb-2">Stock</label>
-                        <input type="number" id="stock" name="stock" class="w-full p-2 border border-slate-300 rounded-md">
+                        <input type="number" id="stock" name="stock"
+                            class="w-full p-2 border border-slate-300 rounded-md">
                     </div>
                     <div class="form-group mb-3 w-1/2 px-2">
                         <label for="description" class="block mb-2">Description</label>

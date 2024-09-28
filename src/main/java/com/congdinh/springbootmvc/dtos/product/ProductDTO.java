@@ -31,4 +31,7 @@ public class ProductDTO {
     @NotNull(message = "Stock is required")
     @PositiveOrZero(message = "Stock must be greater than or equal to 0")
     private int stock;
+
+    // Selected category
+    private UUID categoryId;
 }

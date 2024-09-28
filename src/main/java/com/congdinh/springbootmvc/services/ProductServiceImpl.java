@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 import com.congdinh.springbootmvc.dtos.product.ProductDTO;
+import com.congdinh.springbootmvc.entities.Category;
 import com.congdinh.springbootmvc.entities.Product;
 import com.congdinh.springbootmvc.repositories.ProductRepository;
 
@@ -28,6 +29,11 @@ public class ProductServiceImpl implements ProductService {
             productDTO.setDescription(product.getDescription());
             productDTO.setPrice(product.getPrice());
             productDTO.setStock(product.getStock());
+
+            if (product.getCategory() != null) {
+                productDTO.setCategoryId(product.getCategory().getId());
+            }
+
             return productDTO;
         }).toList();
 
@@ -49,6 +55,10 @@ public class ProductServiceImpl implements ProductService {
         productDTO.setPrice(product.getPrice());
         productDTO.setStock(product.getStock());
 
+        if (product.getCategory() != null) {
+            productDTO.setCategoryId(product.getCategory().getId());
+        }
+
         return productDTO;
     }
 
@@ -66,6 +76,14 @@ public class ProductServiceImpl implements ProductService {
         product.setPrice(productDTO.getPrice());
         product.setStock(productDTO.getStock());
 
+        // Kiem tra xem category co duoc select hay khong
+        // Neu co thi product co category va can set category cho product do
+        if (productDTO.getCategoryId() != null) {
+            var category = new Category();
+            category.setId(productDTO.getCategoryId());
+            product.setCategory(category);
+        }
+
         // Save product
         product = productRepository.save(product);
 
@@ -76,6 +94,11 @@ public class ProductServiceImpl implements ProductService {
         newProductDTO.setDescription(product.getDescription());
         newProductDTO.setPrice(product.getPrice());
         newProductDTO.setStock(product.getStock());
+
+        // Neu product co category thi set category id cho productDTO
+        if (product.getCategory() != null) {
+            newProductDTO.setCategoryId(product.getCategory().getId());
+        }
 
         return newProductDTO;
     }
@@ -99,6 +122,14 @@ public class ProductServiceImpl implements ProductService {
         product.setPrice(productDTO.getPrice());
         product.setStock(productDTO.getStock());
 
+        // Kiem tra xem category co duoc select hay khong
+        // Neu co thi product co category va can set category cho product do de update
+        if (productDTO.getCategoryId() != null) {
+            var category = new Category();
+            category.setId(productDTO.getCategoryId());
+            product.setCategory(category);
+        }
+
         // Save product => update
         product = productRepository.save(product);
 
@@ -109,6 +140,11 @@ public class ProductServiceImpl implements ProductService {
         updatedProductDTO.setDescription(product.getDescription());
         updatedProductDTO.setPrice(product.getPrice());
         updatedProductDTO.setStock(product.getStock());
+
+        // Neu product co category thi set category id cho productDTO
+        if (product.getCategory() != null) {
+            updatedProductDTO.setCategoryId(product.getCategory().getId());
+        }
 
         return updatedProductDTO;
     }

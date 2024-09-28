@@ -1,6 +1,7 @@
 package com.congdinh.springbootmvc.entities;
 
 import java.util.UUID;
+import java.util.List;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -21,4 +22,7 @@ public class Category {
 
     @Column(name = "description", length = 500)
     private String description;
+
+    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
+    private List<Product> products;
 }

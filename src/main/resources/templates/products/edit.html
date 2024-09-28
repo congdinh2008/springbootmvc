@@ -23,19 +23,29 @@
                             th:field="*{name}">
                     </div>
                     <div class="form-group mb-3 w-1/2 px-2">
-                        <label for="description" class="block mb-2">Description</label>
-                        <textarea id="description" name="description"
-                            class="w-full p-2 border border-slate-300 rounded-md" th:field="*{description}"></textarea>
+                        <label for="name" class="block mb-2">Category</label>
+                        <select name="categoryId" id="category" title="Category"
+                            class="w-full p-2 border border-slate-300 rounded-md">
+                            <option>Select Category</option>
+                            <option th:each="category : ${categories}" th:value="${category.id}"
+                                th:text="${category.name}" th:selected="${category.id == productDTO.categoryId}"></option>
+                        </select>
                     </div>
-                    <div class="form-group mb-3 w-1/2 px-2">
+
+                    <div class="form-group mb-3 w-1/4 px-2">
                         <label for="price" class="block mb-2">Price</label>
                         <input type="number" id="price" name="price"
                             class="w-full p-2 border border-slate-300 rounded-md" th:field="*{price}">
                     </div>
-                    <div class="form-group mb-3 w-1/2 px-2">
+                    <div class="form-group mb-3 w-1/4 px-2">
                         <label for="stock" class="block mb-2">Stock</label>
                         <input type="number" id="stock" name="stock"
                             class="w-full p-2 border border-slate-300 rounded-md" th:field="*{stock}">
+                    </div>
+                    <div class="form-group mb-3 w-1/2 px-2">
+                        <label for="description" class="block mb-2">Description</label>
+                        <textarea id="description" name="description"
+                            class="w-full p-2 border border-slate-300 rounded-md" th:field="*{description}"></textarea>
                     </div>
                     <div class="form-group mb-3 w-full flex justify-end gap-2">
                         <a th:href="@{/products}" class="p-2 px-4 bg-red-500 text-white rounded-full">Cancel</a>
