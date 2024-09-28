@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.congdinh.springbootmvc.dtos.product.ProductCreateDTO;
 import com.congdinh.springbootmvc.dtos.product.ProductDTO;
 import com.congdinh.springbootmvc.services.CategoryService;
 import com.congdinh.springbootmvc.services.ProductService;
@@ -42,8 +43,8 @@ public class ProductController {
 
     // Retrieve Product data from form and save to database
     @PostMapping("/create")
-    public String create(@ModelAttribute ProductDTO productDTO) {
-        productService.create(productDTO);
+    public String create(@ModelAttribute ProductCreateDTO productCreateDTO) {
+        productService.create(productCreateDTO);
         return "redirect:/products";
     }
 

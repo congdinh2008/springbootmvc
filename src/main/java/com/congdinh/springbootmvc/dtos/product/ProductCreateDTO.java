@@ -1,9 +1,8 @@
 package com.congdinh.springbootmvc.dtos.product;
 
 import java.util.UUID;
-import org.hibernate.validator.constraints.Length;
 
-import com.congdinh.springbootmvc.dtos.category.CategoryDTO;
+import org.hibernate.validator.constraints.Length;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -14,9 +13,7 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductDTO {
-    private UUID id;
-
+public class ProductCreateDTO {
     @NotNull(message = "Name is required")
     @NotBlank(message = "Name is not empty")
     @Length(min = 3, max = 255, message = "Name must be between 3 and 255 characters")
@@ -35,6 +32,4 @@ public class ProductDTO {
 
     // Selected category
     private UUID categoryId;
-
-    private CategoryDTO category;
 }

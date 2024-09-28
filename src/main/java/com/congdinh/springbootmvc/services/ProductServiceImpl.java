@@ -5,6 +5,8 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
+import com.congdinh.springbootmvc.dtos.category.CategoryDTO;
+import com.congdinh.springbootmvc.dtos.product.ProductCreateDTO;
 import com.congdinh.springbootmvc.dtos.product.ProductDTO;
 import com.congdinh.springbootmvc.entities.Category;
 import com.congdinh.springbootmvc.entities.Product;
@@ -32,6 +34,15 @@ public class ProductServiceImpl implements ProductService {
 
             if (product.getCategory() != null) {
                 productDTO.setCategoryId(product.getCategory().getId());
+
+                // Convert category to categoryDTO
+                var categoryDTO = new CategoryDTO();
+                categoryDTO.setId(product.getCategory().getId());
+                categoryDTO.setName(product.getCategory().getName());
+                categoryDTO.setDescription(product.getCategory().getDescription());
+
+                // Set categoryDTO to productDTO
+                productDTO.setCategory(categoryDTO);
             }
 
             return productDTO;
@@ -57,30 +68,39 @@ public class ProductServiceImpl implements ProductService {
 
         if (product.getCategory() != null) {
             productDTO.setCategoryId(product.getCategory().getId());
+
+             // Convert category to categoryDTO
+             var categoryDTO = new CategoryDTO();
+             categoryDTO.setId(product.getCategory().getId());
+             categoryDTO.setName(product.getCategory().getName());
+             categoryDTO.setDescription(product.getCategory().getDescription());
+
+             // Set categoryDTO to productDTO
+             productDTO.setCategory(categoryDTO);
         }
 
         return productDTO;
     }
 
     @Override
-    public ProductDTO create(ProductDTO productDTO) {
+    public ProductDTO create(ProductCreateDTO productCreateDTO) {
         // Kiem tra productDTO null
-        if (productDTO == null) {
+        if (productCreateDTO == null) {
             throw new IllegalArgumentException("ProductDTO is required");
         }
 
         // Convert ProductDTO to Product
         var product = new Product();
-        product.setName(productDTO.getName());
-        product.setDescription(productDTO.getDescription());
-        product.setPrice(productDTO.getPrice());
-        product.setStock(productDTO.getStock());
+        product.setName(productCreateDTO.getName());
+        product.setDescription(productCreateDTO.getDescription());
+        product.setPrice(productCreateDTO.getPrice());
+        product.setStock(productCreateDTO.getStock());
 
         // Kiem tra xem category co duoc select hay khong
         // Neu co thi product co category va can set category cho product do
-        if (productDTO.getCategoryId() != null) {
+        if (productCreateDTO.getCategoryId() != null) {
             var category = new Category();
-            category.setId(productDTO.getCategoryId());
+            category.setId(productCreateDTO.getCategoryId());
             product.setCategory(category);
         }
 

@@ -25,6 +25,7 @@
                             <th class="border border-slate-300">Description</th>
                             <th class="border border-slate-300">Price</th>
                             <th class="border border-slate-300">Stock</th>
+                            <th class="border border-slate-300">Category</th>
                             <th class="border border-slate-300">Action</th>
                         </tr>
                     </thead>
@@ -35,6 +36,8 @@
                             <td class="border border-slate-300" th:text="${product.description}"></td>
                             <td class="border border-slate-300" th:text="${product.price}"></td>
                             <td class="border border-slate-300" th:text="${product.stock}"></td>
+                            <td class="border border-slate-300"
+                                th:text="${product.category != null ? product.category.name : ''}"></td>
                             <td class="border border-slate-300 flex justify-center gap-3">
                                 <a th:href="@{'/products/edit/' + ${product.id}}" class="btn btn-primary">
                                     <i class="fa-solid fa-edit text-blue-500"></i>
