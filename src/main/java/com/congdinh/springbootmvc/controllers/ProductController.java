@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.congdinh.springbootmvc.dtos.product.ProductCreateDTO;
 import com.congdinh.springbootmvc.dtos.product.ProductDTO;
@@ -27,8 +28,12 @@ public class ProductController {
     }
 
     @GetMapping
-    public String index(Model model) {
-        var products = productService.findAll();
+    public String index(
+            @RequestParam(name = "keyword", required = false) String keyword,
+            Model model) {
+        var products = productService.search(keyword);
+        // Keep keyword in input field
+        model.addAttribute("keyword", keyword);
         model.addAttribute("products", products);
         return "products/index";
     }

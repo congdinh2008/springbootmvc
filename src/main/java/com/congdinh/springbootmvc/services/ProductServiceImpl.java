@@ -181,4 +181,39 @@ public class ProductServiceImpl implements ProductService {
         // Delete product
         productRepository.delete(product);
     }
+  
+    @Override
+    public List<ProductDTO> search(String keyword) {
+        if(keyword == null) {
+            return findAll();
+        }
+        
+        var categories = productRepository.findByNameContainingIgnoreCase(keyword);
+
+        var productDTOs = categories.stream().map(product -> {
+            var productDTO = new ProductDTO();
+            productDTO.setId(product.getId());
+            productDTO.setName(product.getName());
+            productDTO.setDescription(product.getDescription());
+            productDTO.setPrice(product.getPrice());
+            productDTO.setStock(product.getStock());
+
+            if (product.getCategory() != null) {
+                productDTO.setCategoryId(product.getCategory().getId());
+
+                // Convert category to categoryDTO
+                var categoryDTO = new CategoryDTO();
+                categoryDTO.setId(product.getCategory().getId());
+                categoryDTO.setName(product.getCategory().getName());
+                categoryDTO.setDescription(product.getCategory().getDescription());
+
+                // Set categoryDTO to productDTO
+                productDTO.setCategory(categoryDTO);
+            }
+
+            return productDTO;
+        }).toList();
+
+        return productDTOs;
+    }
 }
