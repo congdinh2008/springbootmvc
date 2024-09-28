@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.congdinh.springbootmvc.dtos.category.CategoryCreateDTO;
 import com.congdinh.springbootmvc.dtos.category.CategoryDTO;
 import com.congdinh.springbootmvc.services.CategoryService;
 
@@ -37,8 +38,8 @@ public class CategoryController {
 
     // Retrieve Category data from form and save to database
     @PostMapping("/create")
-    public String create(@ModelAttribute CategoryDTO categoryDTO) {
-        categoryService.create(categoryDTO);
+    public String create(@ModelAttribute CategoryCreateDTO categoryCreateDTO) {
+        categoryService.create(categoryCreateDTO);
         return "redirect:/categories";
     }
 

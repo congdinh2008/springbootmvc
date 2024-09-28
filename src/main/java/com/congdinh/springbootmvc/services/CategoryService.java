@@ -3,6 +3,7 @@ package com.congdinh.springbootmvc.services;
 import java.util.List;
 import java.util.UUID;
 
+import com.congdinh.springbootmvc.dtos.category.CategoryCreateDTO;
 import com.congdinh.springbootmvc.dtos.category.CategoryDTO;
 
 public interface CategoryService {
@@ -10,7 +11,7 @@ public interface CategoryService {
 
     CategoryDTO findById(UUID id);
 
-    CategoryDTO create(CategoryDTO categoryDTO);
+    CategoryDTO create(CategoryCreateDTO categoryCreateDTO);
 
     CategoryDTO update(UUID id, CategoryDTO categoryDTO);
 

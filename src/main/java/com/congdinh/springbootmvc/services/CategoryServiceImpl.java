@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
+import com.congdinh.springbootmvc.dtos.category.CategoryCreateDTO;
 import com.congdinh.springbootmvc.dtos.category.CategoryDTO;
 import com.congdinh.springbootmvc.entities.Category;
 import com.congdinh.springbootmvc.repositories.CategoryRepository;
@@ -50,22 +51,22 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryDTO create(CategoryDTO categoryDTO) {
+    public CategoryDTO create(CategoryCreateDTO categoryCreateDTO) {
         // Kiem tra categoryDTO null
-        if (categoryDTO == null) {
-            throw new IllegalArgumentException("CategoryDTO is required");
+        if (categoryCreateDTO == null) {
+            throw new IllegalArgumentException("Category is required");
         }
 
         // Checl if category name is existed
-        var existedCategory = categoryRepository.findByName(categoryDTO.getName());
+        var existedCategory = categoryRepository.findByName(categoryCreateDTO.getName());
         if (existedCategory != null) {
             throw new IllegalArgumentException("Category name is existed");
         }
 
         // Convert CategoryDTO to Category
         var category = new Category();
-        category.setName(categoryDTO.getName());
-        category.setDescription(categoryDTO.getDescription());
+        category.setName(categoryCreateDTO.getName());
+        category.setDescription(categoryCreateDTO.getDescription());
 
         // Save category
         category = categoryRepository.save(category);
@@ -82,7 +83,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryDTO update(UUID id, CategoryDTO categoryDTO) {
         if (categoryDTO == null) {
-            throw new IllegalArgumentException("CategoryDTO is required");
+            throw new IllegalArgumentException("Category is required");
         }
 
         // Checl if category name is existed
