@@ -1,6 +1,7 @@
 package com.congdinh.springbootmvc.controllers;
 
-import org.hibernate.validator.constraints.UUID;
+import java.util.UUID;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,7 +29,7 @@ public class ProductController {
         return "products/index";
     }
 
-     // Render Create Product form
+    // Render Create Product form
     @GetMapping("/create")
     public String create() {
         return "products/create";

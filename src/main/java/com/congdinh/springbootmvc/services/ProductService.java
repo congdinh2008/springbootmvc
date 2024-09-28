@@ -1,7 +1,7 @@
 package com.congdinh.springbootmvc.services;
 
 import java.util.List;
-import org.hibernate.validator.constraints.UUID;
+import java.util.UUID;
 
 import com.congdinh.springbootmvc.dtos.product.ProductDTO;
 

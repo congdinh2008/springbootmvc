@@ -26,9 +26,9 @@ public class ProductDTO {
 
     @NotNull(message = "Price is required")
     @PositiveOrZero(message = "Price must be greater than or equal to 0")
-    private Double price;
+    private double price;
 
     @NotNull(message = "Stock is required")
     @PositiveOrZero(message = "Stock must be greater than or equal to 0")
-    private Double stock;
+    private int stock;
 }

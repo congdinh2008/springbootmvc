@@ -1,8 +1,8 @@
 package com.congdinh.springbootmvc.services;
 
 import java.util.List;
+import java.util.UUID;
 
-import org.hibernate.validator.constraints.UUID;
 import org.springframework.stereotype.Service;
 
 import com.congdinh.springbootmvc.dtos.product.ProductDTO;
@@ -26,6 +26,8 @@ public class ProductServiceImpl implements ProductService {
             productDTO.setId(product.getId());
             productDTO.setName(product.getName());
             productDTO.setDescription(product.getDescription());
+            productDTO.setPrice(product.getPrice());
+            productDTO.setStock(product.getStock());
             return productDTO;
         }).toList();
 
@@ -44,6 +46,8 @@ public class ProductServiceImpl implements ProductService {
         productDTO.setId(product.getId());
         productDTO.setName(product.getName());
         productDTO.setDescription(product.getDescription());
+        productDTO.setPrice(product.getPrice());
+        productDTO.setStock(product.getStock());
 
         return productDTO;
     }
@@ -59,6 +63,8 @@ public class ProductServiceImpl implements ProductService {
         var product = new Product();
         product.setName(productDTO.getName());
         product.setDescription(productDTO.getDescription());
+        product.setPrice(productDTO.getPrice());
+        product.setStock(productDTO.getStock());
 
         // Save product
         product = productRepository.save(product);
@@ -68,6 +74,8 @@ public class ProductServiceImpl implements ProductService {
         newProductDTO.setId(product.getId());
         newProductDTO.setName(product.getName());
         newProductDTO.setDescription(product.getDescription());
+        newProductDTO.setPrice(product.getPrice());
+        newProductDTO.setStock(product.getStock());
 
         return newProductDTO;
     }
@@ -88,6 +96,8 @@ public class ProductServiceImpl implements ProductService {
         // Update product
         product.setName(productDTO.getName());
         product.setDescription(productDTO.getDescription());
+        product.setPrice(productDTO.getPrice());
+        product.setStock(productDTO.getStock());
 
         // Save product => update
         product = productRepository.save(product);
@@ -97,6 +107,8 @@ public class ProductServiceImpl implements ProductService {
         updatedProductDTO.setId(product.getId());
         updatedProductDTO.setName(product.getName());
         updatedProductDTO.setDescription(product.getDescription());
+        updatedProductDTO.setPrice(product.getPrice());
+        updatedProductDTO.setStock(product.getStock());
 
         return updatedProductDTO;
     }
