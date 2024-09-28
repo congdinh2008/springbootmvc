@@ -63,6 +63,16 @@
                     </tbody>
                 </table>
             </div>
+            <!-- <div class="card-footer pagination">
+                <ul class="flex justify-center gap-2">
+                    <li class="*:p-2 *:bg-blue-500 *:text-white *:rounded-full">
+                        <a th:href="@{'/products?page=' + ${page - 1}}" th:if="${page > 0}">Previous</a>
+                    </li>
+                    <li class="*:p-2 *:bg-blue-500 *:text-white *:rounded-full">
+                        <a th:href="@{'/products?page=' + ${page + 1}}" th:if="${page < totalPages}">Next</a>
+                    </li>
+                </ul>
+            </div> -->
         </div>
     </section>
 </body>

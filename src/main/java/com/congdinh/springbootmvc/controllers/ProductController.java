@@ -2,6 +2,7 @@ package com.congdinh.springbootmvc.controllers;
 
 import java.util.UUID;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,8 +31,11 @@ public class ProductController {
     @GetMapping
     public String index(
             @RequestParam(name = "keyword", required = false) String keyword,
+            @RequestParam(name = "page", required = false, defaultValue = "0") int page,
+            @RequestParam(name = "size", required = false, defaultValue = "2") int size,
             Model model) {
-        var products = productService.search(keyword);
+        var pageable = PageRequest.of(page, size);
+        var products = productService.search(keyword, pageable);
         // Keep keyword in input field
         model.addAttribute("keyword", keyword);
         model.addAttribute("products", products);

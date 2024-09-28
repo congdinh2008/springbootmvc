@@ -3,6 +3,9 @@ package com.congdinh.springbootmvc.services;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.congdinh.springbootmvc.dtos.category.CategoryDTO;
@@ -69,14 +72,14 @@ public class ProductServiceImpl implements ProductService {
         if (product.getCategory() != null) {
             productDTO.setCategoryId(product.getCategory().getId());
 
-             // Convert category to categoryDTO
-             var categoryDTO = new CategoryDTO();
-             categoryDTO.setId(product.getCategory().getId());
-             categoryDTO.setName(product.getCategory().getName());
-             categoryDTO.setDescription(product.getCategory().getDescription());
+            // Convert category to categoryDTO
+            var categoryDTO = new CategoryDTO();
+            categoryDTO.setId(product.getCategory().getId());
+            categoryDTO.setName(product.getCategory().getName());
+            categoryDTO.setDescription(product.getCategory().getDescription());
 
-             // Set categoryDTO to productDTO
-             productDTO.setCategory(categoryDTO);
+            // Set categoryDTO to productDTO
+            productDTO.setCategory(categoryDTO);
         }
 
         return productDTO;
@@ -181,13 +184,13 @@ public class ProductServiceImpl implements ProductService {
         // Delete product
         productRepository.delete(product);
     }
-  
+
     @Override
     public List<ProductDTO> search(String keyword) {
-        if(keyword == null) {
+        if (keyword == null) {
             return findAll();
         }
-        
+
         var categories = productRepository.findByNameContainingIgnoreCase(keyword);
 
         var productDTOs = categories.stream().map(product -> {
@@ -213,6 +216,49 @@ public class ProductServiceImpl implements ProductService {
 
             return productDTO;
         }).toList();
+
+        return productDTOs;
+    }
+
+    @Override
+    public Page<ProductDTO> search(String keyword, Pageable pageable) {
+        Specification<Product> specification = (root, query, criteriaBuilder) -> {
+            if (keyword == null) {
+                return null;
+            }
+
+            // WHERE name LIKE %keyword% OR description LIKE %keyword%
+            return criteriaBuilder.or(
+                    criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), "%" + keyword.toLowerCase() + "%"),
+                    criteriaBuilder.like(criteriaBuilder.lower(root.get("description")),
+                            "%" + keyword.toLowerCase() + "%"));
+        };
+
+        Page<Product> products = productRepository.findAll(specification, pageable);
+
+        Page<ProductDTO> productDTOs = products.map(product -> {
+            var productDTO = new ProductDTO();
+            productDTO.setId(product.getId());
+            productDTO.setName(product.getName());
+            productDTO.setDescription(product.getDescription());
+            productDTO.setPrice(product.getPrice());
+            productDTO.setStock(product.getStock());
+
+            if (product.getCategory() != null) {
+                productDTO.setCategoryId(product.getCategory().getId());
+
+                // Convert category to categoryDTO
+                var categoryDTO = new CategoryDTO();
+                categoryDTO.setId(product.getCategory().getId());
+                categoryDTO.setName(product.getCategory().getName());
+                categoryDTO.setDescription(product.getCategory().getDescription());
+
+                // Set categoryDTO to productDTO
+                productDTO.setCategory(categoryDTO);
+            }
+
+            return productDTO;
+        });
 
         return productDTOs;
     }
