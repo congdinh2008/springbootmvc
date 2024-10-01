@@ -11,6 +11,8 @@ import com.congdinh.springbootmvc.dtos.category.CategoryDTO;
 import com.congdinh.springbootmvc.entities.Category;
 import com.congdinh.springbootmvc.repositories.CategoryRepository;
 
+import jakarta.persistence.criteria.Predicate;
+
 @Service
 public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
@@ -46,7 +48,15 @@ public class CategoryServiceImpl implements CategoryService {
 
             // Neu keyword khong null
             // WHERE LOWER(name) LIKE %keyword%
-            return criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), "%" + keyword.toLowerCase() + "%");
+            Predicate namePredicate = criteriaBuilder.like(criteriaBuilder.lower(root.get("name")),
+                    "%" + keyword.toLowerCase() + "%");
+
+            // WHERE LOWER(description) LIKE %keyword%
+            Predicate desPredicate = criteriaBuilder.like(criteriaBuilder.lower(root.get("description")),
+                    "%" + keyword.toLowerCase() + "%");
+
+            // WHERE LOWER(name) LIKE %keyword% OR LOWER(description) LIKE %keyword%
+            return criteriaBuilder.or(namePredicate, desPredicate);
         };
 
         var categories = categoryRepository.findAll(specification);
