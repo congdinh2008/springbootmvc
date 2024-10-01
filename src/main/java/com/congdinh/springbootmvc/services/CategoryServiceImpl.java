@@ -3,6 +3,8 @@ package com.congdinh.springbootmvc.services;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -69,6 +71,42 @@ public class CategoryServiceImpl implements CategoryService {
             categoryDTO.setDescription(category.getDescription());
             return categoryDTO;
         }).toList();
+
+        return categoryDTOs;
+    }
+
+    @Override
+    public Page<CategoryDTO> findAll(String keyword, Pageable pageable) {
+         // Find category by keyword
+         Specification<Category> specification = (root, query, criteriaBuilder) -> {
+            // Neu keyword null thi tra ve null
+            if (keyword == null) {
+                return null;
+            }
+
+            // Neu keyword khong null
+            // WHERE LOWER(name) LIKE %keyword%
+            Predicate namePredicate = criteriaBuilder.like(criteriaBuilder.lower(root.get("name")),
+                    "%" + keyword.toLowerCase() + "%");
+
+            // WHERE LOWER(description) LIKE %keyword%
+            Predicate desPredicate = criteriaBuilder.like(criteriaBuilder.lower(root.get("description")),
+                    "%" + keyword.toLowerCase() + "%");
+
+            // WHERE LOWER(name) LIKE %keyword% OR LOWER(description) LIKE %keyword%
+            return criteriaBuilder.or(namePredicate, desPredicate);
+        };
+
+        var categories = categoryRepository.findAll(specification, pageable);
+
+        // Covert Page<Category> to Page<CategoryDTO>
+        var categoryDTOs = categories.map(category -> {
+            var categoryDTO = new CategoryDTO();
+            categoryDTO.setId(category.getId());
+            categoryDTO.setName(category.getName());
+            categoryDTO.setDescription(category.getDescription());
+            return categoryDTO;
+        });
 
         return categoryDTOs;
     }
