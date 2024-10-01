@@ -30,6 +30,9 @@ public class CategoryController {
         Model model) {
         var categories = categoryService.findAll(keyword);
         model.addAttribute("categories", categories);
+
+        // Passing keyword to view
+        model.addAttribute("keyword", keyword);
         return "categories/index";
     }
 
