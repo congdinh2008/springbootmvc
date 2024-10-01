@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.congdinh.springbootmvc.dtos.category.CategoryCreateDTO;
 import com.congdinh.springbootmvc.dtos.category.CategoryDTO;
@@ -24,8 +25,10 @@ public class CategoryController {
     }
 
     @GetMapping
-    public String index(Model model) {
-        var categories = categoryService.findAll();
+    public String index(
+        @RequestParam(required = false) String keyword,
+        Model model) {
+        var categories = categoryService.findAll(keyword);
         model.addAttribute("categories", categories);
         return "categories/index";
     }

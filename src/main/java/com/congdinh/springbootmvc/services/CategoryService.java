@@ -8,6 +8,8 @@ import com.congdinh.springbootmvc.dtos.category.CategoryDTO;
 
 public interface CategoryService {
     List<CategoryDTO> findAll();
+    
+    List<CategoryDTO> findAll(String keyword);
 
     CategoryDTO findById(UUID id);
 

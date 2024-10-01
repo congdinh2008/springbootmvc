@@ -3,6 +3,7 @@ package com.congdinh.springbootmvc.services;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.congdinh.springbootmvc.dtos.category.CategoryCreateDTO;
@@ -23,6 +24,34 @@ public class CategoryServiceImpl implements CategoryService {
     public List<CategoryDTO> findAll() {
         var categories = categoryRepository.findAll();
 
+        var categoryDTOs = categories.stream().map(category -> {
+            var categoryDTO = new CategoryDTO();
+            categoryDTO.setId(category.getId());
+            categoryDTO.setName(category.getName());
+            categoryDTO.setDescription(category.getDescription());
+            return categoryDTO;
+        }).toList();
+
+        return categoryDTOs;
+    }
+
+    @Override
+    public List<CategoryDTO> findAll(String keyword) {
+        // Find category by keyword
+        Specification<Category> specification = (root, query, criteriaBuilder) -> {
+            // Neu keyword null thi tra ve null
+            if (keyword == null) {
+                return null;
+            }
+
+            // Neu keyword khong null
+            // WHERE LOWER(name) LIKE %keyword%
+            return criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), "%" + keyword.toLowerCase() + "%");
+        };
+
+        var categories = categoryRepository.findAll(specification);
+
+        // Covert List<Category> to List<CategoryDTO>
         var categoryDTOs = categories.stream().map(category -> {
             var categoryDTO = new CategoryDTO();
             categoryDTO.setId(category.getId());
