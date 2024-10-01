@@ -58,6 +58,32 @@
                     </tbody>
                 </table>
             </div>
+            <div class="card-footer pagination p-3">
+                <ul class="page-menu flex justify-center items-center gap-2">
+                    <li class="page-item">
+                        <a class="w-8 h-8 flex justify-center items-center block page-link p-2 bg-slate-300 hover:bg-blue-500 hover:text-white rounded-full cursor-pointer"
+                            th:classappend="0 == ${page} ? 'pointer-events-none !bg-slate-200 text-slate-400' : ''"
+                            th:href="@{/categories(page=0, size=2)}">
+                            <i class="fa-solid fa-angle-double-left"></i>
+                        </a>
+                    </li>
+
+                    <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+                        <!-- Page i and size 2 -->
+                        <a class="w-8 h-8 flex justify-center items-center block page-link p-2 bg-slate-300 hover:bg-blue-500 hover:text-white rounded-full cursor-pointer"
+                            th:classappend="${i} == ${page} ? '!bg-blue-500 text-white' : ''"
+                            th:href="@{/categories(page=${i}, size=2)}" th:text="${i} + 1"></a>
+                    </li>
+
+                    <li class="page-item">
+                        <a class="w-8 h-8 flex justify-center items-center block page-link p-2 bg-slate-300 hover:bg-blue-500 hover:text-white rounded-full cursor-pointer"
+                            th:classappend="${totalPages - 1} == ${page} ? 'pointer-events-none !bg-slate-200 text-slate-400' : ''"
+                            th:href="@{/categories(page=${totalPages - 1}, size=2)}">
+                            <i class="fa-solid fa-angle-double-right"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
     </section>
 </body>

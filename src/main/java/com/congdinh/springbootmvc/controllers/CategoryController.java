@@ -41,6 +41,13 @@ public class CategoryController {
 
         // Passing keyword to view
         model.addAttribute("keyword", keyword);
+        // Passing total pages to view
+        model.addAttribute("totalPages", categories.getTotalPages());
+        // Passing total elements to view
+        model.addAttribute("totalElements", categories.getTotalElements());
+
+        model.addAttribute("page", page);
+
         return "categories/index";
     }
 
