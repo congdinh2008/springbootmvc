@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -32,11 +33,19 @@ public class CategoryController {
     @GetMapping
     public String index(
             @RequestParam(required = false) String keyword,
+            @RequestParam(required = false, defaultValue = "name") String sortBy, // Xac dinh truong sap xep
+            @RequestParam(required = false, defaultValue = "asc") String order, // Xac dinh chieu sap xep
             @RequestParam(required = false, defaultValue = "0") Integer page,
-            @RequestParam(required = false, defaultValue = "2") Integer size,
+            @RequestParam(required = false, defaultValue = "5") Integer size,
             Model model) {
-        // Create Pageable object
-        Pageable pageable = PageRequest.of(page, size);
+        // Check sort order
+        Pageable pageable = null;
+
+        if (order.equals("asc")) {
+            pageable = PageRequest.of(page, size, Sort.by(sortBy).ascending());
+        } else {
+            pageable = PageRequest.of(page, size, Sort.by(sortBy).descending());
+        }
 
         // Search category by keyword and paging
         var categories = categoryService.findAll(keyword, pageable);
@@ -48,6 +57,12 @@ public class CategoryController {
         model.addAttribute("totalPages", categories.getTotalPages());
         // Passing total elements to view
         model.addAttribute("totalElements", categories.getTotalElements());
+
+        // Passing current sortBy to view
+        model.addAttribute("sortBy", sortBy);
+
+        // Passing current order to view
+        model.addAttribute("order", order);
 
         model.addAttribute("page", page);
         model.addAttribute("pageSize", size);
