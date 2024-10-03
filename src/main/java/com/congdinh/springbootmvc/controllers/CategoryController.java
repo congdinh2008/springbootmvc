@@ -6,6 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.congdinh.springbootmvc.dtos.category.CategoryCreateDTO;
 import com.congdinh.springbootmvc.dtos.category.CategoryDTO;
 import com.congdinh.springbootmvc.services.CategoryService;
+
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/categories")
@@ -55,13 +58,20 @@ public class CategoryController {
 
     // Render Create Category form
     @GetMapping("/create")
-    public String create() {
+    public String create(Model model) {
+        var categoryCreateDTO = new CategoryCreateDTO();
+        model.addAttribute("categoryCreateDTO", categoryCreateDTO);
         return "categories/create";
     }
 
     // Retrieve Category data from form and save to database
     @PostMapping("/create")
-    public String create(@ModelAttribute CategoryCreateDTO categoryCreateDTO) {
+    public String create(@ModelAttribute @Valid CategoryCreateDTO categoryCreateDTO,
+            BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            return "categories/create";
+        }
+
         categoryService.create(categoryCreateDTO);
         return "redirect:/categories";
     }
