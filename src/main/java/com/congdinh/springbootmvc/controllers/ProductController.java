@@ -5,6 +5,7 @@ import java.util.UUID;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +17,8 @@ import com.congdinh.springbootmvc.dtos.product.ProductCreateDTO;
 import com.congdinh.springbootmvc.dtos.product.ProductDTO;
 import com.congdinh.springbootmvc.services.CategoryService;
 import com.congdinh.springbootmvc.services.ProductService;
+
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/products")
@@ -36,15 +39,34 @@ public class ProductController {
             Model model) {
         var pageable = PageRequest.of(page, size);
         var products = productService.search(keyword, pageable);
-        // Keep keyword in input field
-        model.addAttribute("keyword", keyword);
         model.addAttribute("products", products);
+
+        // Current keyword
+        model.addAttribute("keyword", keyword);
+
+        // Current page
+        model.addAttribute("page", page);
+
+        // Current pageSize
+        model.addAttribute("pageSize", size);
+
+        // total pages
+        model.addAttribute("totalPages", products.getTotalPages());
+
+        // Total elements
+        model.addAttribute("totalElements", products.getTotalElements());
+
+        // List of page sizes
+        model.addAttribute("pageSizes", new Integer[] { 2, 5, 10, 20, 50, 100 });
         return "products/index";
     }
 
     // Render Create Product form
     @GetMapping("/create")
     public String create(Model model) {
+        var product = new ProductCreateDTO();
+        model.addAttribute("productCreateDTO", product);
+
         var categories = categoryService.findAll();
         model.addAttribute("categories", categories);
         return "products/create";
@@ -52,8 +74,20 @@ public class ProductController {
 
     // Retrieve Product data from form and save to database
     @PostMapping("/create")
-    public String create(@ModelAttribute ProductCreateDTO productCreateDTO) {
+    public String create(
+            @ModelAttribute @Valid ProductCreateDTO productCreateDTO,
+            BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            if (productCreateDTO.getCategoryId() == null) {
+                bindingResult.rejectValue("categoryId", "category", "Category is required");
+            }
+            var categories = categoryService.findAll();
+            model.addAttribute("categories", categories);
+            return "products/create";
+        }
+
         productService.create(productCreateDTO);
+
         return "redirect:/products";
     }
 
