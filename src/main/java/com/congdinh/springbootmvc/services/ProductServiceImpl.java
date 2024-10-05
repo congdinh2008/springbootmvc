@@ -36,6 +36,7 @@ public class ProductServiceImpl implements ProductService {
             productDTO.setDescription(product.getDescription());
             productDTO.setPrice(product.getPrice());
             productDTO.setStock(product.getStock());
+            productDTO.setImage(product.getImage());
 
             if (product.getCategory() != null) {
                 productDTO.setCategoryId(product.getCategory().getId());
@@ -70,6 +71,7 @@ public class ProductServiceImpl implements ProductService {
         productDTO.setDescription(product.getDescription());
         productDTO.setPrice(product.getPrice());
         productDTO.setStock(product.getStock());
+        productDTO.setImage(product.getImage());
 
         if (product.getCategory() != null) {
             productDTO.setCategoryId(product.getCategory().getId());
@@ -100,6 +102,7 @@ public class ProductServiceImpl implements ProductService {
         product.setDescription(productCreateDTO.getDescription());
         product.setPrice(productCreateDTO.getPrice());
         product.setStock(productCreateDTO.getStock());
+        product.setImage(productCreateDTO.getImage());
 
         // Kiem tra xem category co duoc select hay khong
         // Neu co thi product co category va can set category cho product do
@@ -119,6 +122,7 @@ public class ProductServiceImpl implements ProductService {
         newProductDTO.setDescription(product.getDescription());
         newProductDTO.setPrice(product.getPrice());
         newProductDTO.setStock(product.getStock());
+        newProductDTO.setImage(product.getImage());
 
         // Neu product co category thi set category id cho productDTO
         if (product.getCategory() != null) {
@@ -146,6 +150,7 @@ public class ProductServiceImpl implements ProductService {
         product.setDescription(productDTO.getDescription());
         product.setPrice(productDTO.getPrice());
         product.setStock(productDTO.getStock());
+        product.setImage(productDTO.getImage());
 
         // Kiem tra xem category co duoc select hay khong
         // Neu co thi product co category va can set category cho product do de update
@@ -165,6 +170,7 @@ public class ProductServiceImpl implements ProductService {
         updatedProductDTO.setDescription(product.getDescription());
         updatedProductDTO.setPrice(product.getPrice());
         updatedProductDTO.setStock(product.getStock());
+        updatedProductDTO.setImage(product.getImage());
 
         // Neu product co category thi set category id cho productDTO
         if (product.getCategory() != null) {
@@ -202,6 +208,7 @@ public class ProductServiceImpl implements ProductService {
             productDTO.setDescription(product.getDescription());
             productDTO.setPrice(product.getPrice());
             productDTO.setStock(product.getStock());
+            productDTO.setImage(product.getImage());
 
             if (product.getCategory() != null) {
                 productDTO.setCategoryId(product.getCategory().getId());
@@ -245,6 +252,7 @@ public class ProductServiceImpl implements ProductService {
             productDTO.setDescription(product.getDescription());
             productDTO.setPrice(product.getPrice());
             productDTO.setStock(product.getStock());
+            productDTO.setImage(product.getImage());
 
             if (product.getCategory() != null) {
                 productDTO.setCategoryId(product.getCategory().getId());
@@ -305,6 +313,7 @@ public class ProductServiceImpl implements ProductService {
             productDTO.setDescription(product.getDescription());
             productDTO.setPrice(product.getPrice());
             productDTO.setStock(product.getStock());
+            productDTO.setImage(product.getImage());
 
             if (product.getCategory() != null) {
                 productDTO.setCategoryId(product.getCategory().getId());

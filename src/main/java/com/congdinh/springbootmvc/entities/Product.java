@@ -28,6 +28,9 @@ public class Product {
     @Column(name = "stock", nullable = false)
     private int stock;
 
+    @Column(name = "image")
+    private String image; // url: /images/products/huawei_mate_xt.jpg
+
     @ManyToOne
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     private Category category;

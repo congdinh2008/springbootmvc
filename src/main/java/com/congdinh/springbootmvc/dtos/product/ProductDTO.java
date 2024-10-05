@@ -33,6 +33,9 @@ public class ProductDTO {
     @PositiveOrZero(message = "Stock must be greater than or equal to 0")
     private int stock;
 
+    @Length(max = 255, message = "Image must be less than 255 characters")
+    private String image;
+
     // Selected category
     private UUID categoryId;
 

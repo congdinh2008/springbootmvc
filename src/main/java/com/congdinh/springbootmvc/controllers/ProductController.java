@@ -1,6 +1,9 @@
 package com.congdinh.springbootmvc.controllers;
 
 import java.util.UUID;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.Files;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.congdinh.springbootmvc.dtos.product.ProductCreateDTO;
 import com.congdinh.springbootmvc.dtos.product.ProductDTO;
@@ -36,7 +40,7 @@ public class ProductController {
             @RequestParam(name = "keyword", required = false) String keyword,
             @RequestParam(name = "categoryName", required = false) String categoryName,
             @RequestParam(name = "page", required = false, defaultValue = "0") int page,
-            @RequestParam(name = "size", required = false, defaultValue = "2") int size,
+            @RequestParam(name = "size", required = false, defaultValue = "5") int size,
             Model model) {
         var pageable = PageRequest.of(page, size);
         var products = productService.search(keyword, categoryName, pageable);
@@ -59,7 +63,7 @@ public class ProductController {
 
         // Limit page
         model.addAttribute("pageLimit", 2);
-        
+
         // List of page sizes
         model.addAttribute("pageSizes", new Integer[] { 2, 5, 10, 20, 50, 100 });
 
@@ -86,6 +90,7 @@ public class ProductController {
     @PostMapping("/create")
     public String create(
             @ModelAttribute @Valid ProductCreateDTO productCreateDTO,
+            @RequestParam(name = "imageFile", required = false) MultipartFile imageFile,
             BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             if (productCreateDTO.getCategoryId() == null) {
@@ -94,6 +99,23 @@ public class ProductController {
             var categories = categoryService.findAll();
             model.addAttribute("categories", categories);
             return "products/create";
+        }
+
+        if (imageFile != null && !imageFile.isEmpty()) {
+            try {
+                byte[] bytes = imageFile.getBytes();
+                Path path = Paths.get("src/main/resources/static/images/products/" + imageFile.getOriginalFilename());
+                Files.write(path, bytes);
+                productCreateDTO.setImage("/images/products/" + imageFile.getOriginalFilename());
+            } catch (Exception e) {
+                e.printStackTrace();
+                model.addAttribute("message", "Failed to upload image");
+                var categories = categoryService.findAll();
+                model.addAttribute("categories", categories);
+
+                bindingResult.rejectValue("image", "image", "Failed to upload image");
+                return "products/create";
+            }
         }
 
         productService.create(productCreateDTO);
