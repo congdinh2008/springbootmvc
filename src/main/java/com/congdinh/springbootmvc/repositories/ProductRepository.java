@@ -15,4 +15,22 @@ import com.congdinh.springbootmvc.entities.Product;
 public interface ProductRepository extends JpaRepository<Product, UUID>, JpaSpecificationExecutor<Product> {
 
     List<Product> findByNameContainingIgnoreCase(String name);
+
+    List<Product> findByName(String name);
+
+    List<Product> findByPriceGreaterThan(double price);
+
+    Product getFirstByOrderByPriceDesc();
+
+    // Get top product by price order by desc
+    List<Product> findTop10ByOrderByPriceDesc();
+
+    double getStockById(UUID id);
+
+    List<Product> findByNameAndPriceGreaterThan(String name, double price);
+
+    List<Product> findByCategoryIsNull();
+
+    // SELECT * FROM products JOIN categories ON products.category_id = categories.id WHERE categories.name = ?
+    List<Product> findByCategoryName(String name);
 }
