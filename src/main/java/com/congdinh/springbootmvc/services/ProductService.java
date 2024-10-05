@@ -23,4 +23,6 @@ public interface ProductService {
     void delete(UUID id);
 
     Page<ProductDTO> search(String keyword, Pageable pageable);
+    
+    Page<ProductDTO> search(String keyword, String categoryName, Pageable pageable);
 }

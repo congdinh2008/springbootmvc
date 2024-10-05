@@ -34,11 +34,12 @@ public class ProductController {
     @GetMapping
     public String index(
             @RequestParam(name = "keyword", required = false) String keyword,
+            @RequestParam(name = "categoryName", required = false) String categoryName,
             @RequestParam(name = "page", required = false, defaultValue = "0") int page,
             @RequestParam(name = "size", required = false, defaultValue = "2") int size,
             Model model) {
         var pageable = PageRequest.of(page, size);
-        var products = productService.search(keyword, pageable);
+        var products = productService.search(keyword, categoryName, pageable);
         model.addAttribute("products", products);
 
         // Current keyword
@@ -61,6 +62,12 @@ public class ProductController {
         
         // List of page sizes
         model.addAttribute("pageSizes", new Integer[] { 2, 5, 10, 20, 50, 100 });
+
+        // Get all categories
+        var categories = categoryService.findAll();
+        model.addAttribute("categories", categories);
+
+        model.addAttribute("categoryName", categoryName);
         return "products/index";
     }
 

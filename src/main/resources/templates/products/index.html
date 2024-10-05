@@ -20,6 +20,15 @@
                         <input type="text" id="keyword" name="keyword"
                             class="w-full p-2 border border-slate-300 rounded-md" th:value="${keyword}">
                     </div>
+                    <div class="form-group mb-3 w-full">
+                        <label for="keyword" class="block mb-2">Category</label>
+                        <select name="categoryName" id="category" title="Category"
+                            class="w-full p-2 border border-slate-300 rounded-md">
+                            <option>Select Category</option>
+                            <option th:each="category : ${categories}" th:value="${category.name}"
+                                th:text="${category.name}" th:selected="${category.name == categoryName}"></option>
+                        </select>
+                    </div>
                 </div>
                 <div class="card-footer p-3 flex justify-between">
                     <a th:href="@{/products/create}" class="p-2 px-4 bg-green-500 text-white rounded-full">Create</a>
@@ -79,7 +88,7 @@
                     <li class="page-item">
                         <a class="w-8 h-8 flex justify-center items-center block page-link p-2 bg-slate-300 hover:bg-blue-500 hover:text-white rounded-full cursor-pointer"
                             th:classappend="0 == ${page} ? 'pointer-events-none !bg-slate-200 text-slate-400' : ''"
-                            th:href="@{/products(keyword=${keyword}, page=0, size=${pageSize})}">
+                            th:href="@{/products(keyword=${keyword}, categoryName=${categoryName}, page=0, size=${pageSize})}">
                             <i class="fa-solid fa-angle-double-left"></i>
                         </a>
                     </li>
@@ -89,14 +98,14 @@
                         <!-- Page i and size 2 -->
                         <a class="w-8 h-8 flex justify-center items-center block page-link p-2 bg-slate-300 hover:bg-blue-500 hover:text-white rounded-full cursor-pointer"
                             th:classappend="${i} == ${page} ? '!bg-blue-500 text-white' : ''"
-                            th:href="@{/products(keyword=${keyword}, page=${i}, size=${pageSize})}"
+                            th:href="@{/products(keyword=${keyword}, categoryName=${categoryName}, page=${i}, size=${pageSize})}"
                             th:text="${i} + 1"></a>
                     </li>
 
                     <li class="page-item">
                         <a class="w-8 h-8 flex justify-center items-center block page-link p-2 bg-slate-300 hover:bg-blue-500 hover:text-white rounded-full cursor-pointer"
                             th:classappend="${totalPages - 1} == ${page} ? 'pointer-events-none !bg-slate-200 text-slate-400' : ''"
-                            th:href="@{/products(keyword=${keyword}, page=${totalPages - 1}, size=${pageSize})}">
+                            th:href="@{/products(keyword=${keyword}, categoryName=${categoryName}, page=${totalPages - 1}, size=${pageSize})}">
                             <i class="fa-solid fa-angle-double-right"></i>
                         </a>
                     </li>
