@@ -49,6 +49,7 @@
                         <label for="imageFile" class="block mb-2">Image</label>
                         <input type="file" id="imageFile" name="imageFile"
                             class="w-full p-2 border border-slate-300 rounded-md">
+                        <span class="text-red-500" th:if="${#fields.hasErrors('image')}" th:errors="*{image}"></span>
                     </div>
                     <div class="form-group mb-3 w-full px-2">
                         <label for="editor" class="block mb-2">Description</label>

@@ -137,7 +137,33 @@ public class ProductController {
 
     // Retrieve Product data from form and save to database
     @PostMapping("/edit/{id}")
-    public String edit(@PathVariable UUID id, @ModelAttribute ProductDTO productDTO) {
+    public String edit(@PathVariable UUID id, @ModelAttribute ProductDTO productDTO,
+            @RequestParam(name = "imageFile", required = false) MultipartFile imageFile, Model model) {
+
+        var oldProduct = productService.findById(id);
+
+        // Case 1: User does not select a new image
+        if (imageFile.getOriginalFilename().isEmpty()) {
+            productDTO.setImage(oldProduct.getImage());
+        } else {
+            // Case 2: User selects a new image
+            if (imageFile.getOriginalFilename() != null && !imageFile.getOriginalFilename().isEmpty()) {
+                try {
+                    byte[] bytes = imageFile.getBytes();
+                    Path path = Paths
+                            .get("src/main/resources/static/images/products/" + imageFile.getOriginalFilename());
+                    Files.write(path, bytes);
+                    productDTO.setImage("/images/products/" + imageFile.getOriginalFilename());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    model.addAttribute("message", "Failed to upload image");
+                    var categories = categoryService.findAll();
+                    model.addAttribute("categories", categories);
+                    return "products/create";
+                }
+            }
+        }
+
         productService.update(id, productDTO);
         return "redirect:/products";
     }
