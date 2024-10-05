@@ -56,6 +56,9 @@ public class ProductController {
         // Total elements
         model.addAttribute("totalElements", products.getTotalElements());
 
+        // Limit page
+        model.addAttribute("pageLimit", 2);
+        
         // List of page sizes
         model.addAttribute("pageSizes", new Integer[] { 2, 5, 10, 20, 50, 100 });
         return "products/index";

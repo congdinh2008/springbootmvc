@@ -64,9 +64,12 @@ public class CategoryController {
         // Passing current order to view
         model.addAttribute("order", order);
 
+        // Limit page
+        model.addAttribute("pageLimit", 3);
+
         model.addAttribute("page", page);
         model.addAttribute("pageSize", size);
-        model.addAttribute("pageSizes", new Integer[] { 2, 5, 10, 20, 50, 100 });
+        model.addAttribute("pageSizes", new Integer[] { 2, 5, 10, 20, 30, 50, 100 });
 
         return "categories/index";
     }
